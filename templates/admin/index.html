@@ -1,0 +1,86 @@
+<!-- saved from url=(0093)file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></head><body>{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%%20static" admin="" css="" dashboard.css"="" %}"="">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+{% if app_list %}
+    {% for app in app_list %}
+        <div class="app-{{ app.app_label }} module">
+        
+        {% for model in app.models %}
+            
+            {% if model.admin_url %}
+                
+            {% else %}
+                
+            {% endif %}
+
+            {% if model.add_url %}
+                
+            {% else %}
+                
+            {% endif %}
+
+            {% if model.admin_url %}
+                
+            {% else %}
+                
+            {% endif %}
+            
+        {% endfor %}
+        <table>
+        <caption>
+            <a href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%7B%20app.app_url%20%7D%7D" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+                {% blocktrans with name=app.name %}{{ name }}{% endblocktrans %}
+            </a>
+        </caption><tbody><tr class="model-{{ model.object_name|lower }}"><th scope="row"><a href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%7B%20model.admin_url%20%7D%7D">{{ model.name }}</a></th><th scope="row">{{ model.name }}</th><td><a href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%7B%20model.add_url%20%7D%7D" class="addlink">{% trans 'Add' %}</a></td><td>&nbsp;</td><td><a href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%7B%20model.admin_url%20%7D%7D" class="changelink">{% trans 'Change' %}</a></td><td>&nbsp;</td></tr></tbody></table>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{% trans "You don't have permission to edit anything." %}</p>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Recent Actions' %}</h2>
+        <h3>{% trans 'My Actions' %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+            <p>{% trans 'None available' %}</p>
+            {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                    {{ entry.object_repr }}
+                {% else %}
+                    <a href="file:///usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/%7B%7B%20entry.get_admin_url%20%7D%7D">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br>
+                {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}{% trans entry.content_type.name %}{% endfilter %}</span>
+                {% else %}
+                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}
+</body></html>
